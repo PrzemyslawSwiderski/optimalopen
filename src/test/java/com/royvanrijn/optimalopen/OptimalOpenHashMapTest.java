@@ -208,6 +208,11 @@ public class OptimalOpenHashMapTest {
         int simulatedSize = (int)(OptimalOpenHashMap.MAXIMUM_CAPACITY * OptimalOpenHashMap.DEFAULT_LOAD_FACTOR);
         sizeField.set(map, simulatedSize);
 
+        // Set capacity to a maximum value
+        Field capacityField = map.getClass().getDeclaredField("capacity");
+        capacityField.setAccessible(true);
+        capacityField.set(map, OptimalOpenHashMap.MAXIMUM_CAPACITY);
+
         // Now, a put() should try to resize and throw an exception.
         assertThrows(IllegalStateException.class, () -> map.put("exceed", 999));
     }
